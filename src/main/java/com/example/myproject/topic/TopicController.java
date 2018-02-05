@@ -1,4 +1,4 @@
-package com.example.myproject.category;
+package com.example.myproject.topic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -6,15 +6,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class MyRestController
+public class TopicController
 {
    @Autowired
     private TopicService topicService;
 
-    @RequestMapping("/")
-    public String hello() {
-        return "Hello World!";
-    }
 
     @RequestMapping("/topics")
     public List<Topic>  getAllTopics() {

@@ -1,4 +1,4 @@
-package com.example.myproject.category;
+package com.example.myproject.topic;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

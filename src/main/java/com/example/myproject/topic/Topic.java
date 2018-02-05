@@ -1,4 +1,4 @@
-package com.example.myproject.category;
+package com.example.myproject.topic;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
