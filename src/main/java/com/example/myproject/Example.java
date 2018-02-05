@@ -2,25 +2,16 @@ package com.example.myproject;
 
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 
-@Configuration
-@ComponentScan
-@RestController
-@EnableAutoConfiguration
+@SpringBootApplication
 public class Example {
 
-    @RequestMapping("/")
-    String home() {
-        return "Hello World!";
-    }
-
-
-
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SpringApplication.run(Example.class, args);
-    }
+        /* SpringApplication app = new SpringApplication(Example.class);
+        app.setBannerMode(Banner.Mode.OFF);
+        app.run(args);*/
+       }
 
 }
