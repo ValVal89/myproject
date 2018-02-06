@@ -1,15 +1,21 @@
 package com.example.myproject.topic;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.example.myproject.course.Course;
+
+import javax.persistence.*;
 
 @Entity
+@Table(name = "topic")
 public class Topic
 {
     @Id
+    @Column(name = "id")
     private String id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "description")
     private String description;
+
 
     public Topic(String id, String name, String description) {
         this.id = id;

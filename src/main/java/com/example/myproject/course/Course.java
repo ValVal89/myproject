@@ -2,22 +2,25 @@ package com.example.myproject.course;
 
 import com.example.myproject.topic.Topic;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "course")
 public class Course
 {
     @Id
+    @Column(name = "id")
     private String id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "description")
     private String description;
 
     @ManyToOne
+    @JoinColumn(name = "topicId")
     private Topic topic;
 
-    public Course(String id, String name, String description, String topicId) {
+    public Course(String id, String topicId, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

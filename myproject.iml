@@ -80,5 +80,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.3.14.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-actuator:1.5.10.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-actuator:1.5.10.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.45" level="project" />
   </component>
 </module>
