@@ -70,7 +70,9 @@ public class CallRestService implements CommandLineRunner {
 
     private static void putTopic()
     {
-        Topic topic = new Topic("newTopic", "newTopic", "newTopic");
+        Topic topicold = restTemplate.getForObject("http://localhost:8080/topics/myTopic", Topic.class);
+        String topicoldId = topicold.getId();
+        Topic topic = new Topic(topicoldId, "newTopic", "newTopic");
         HttpEntity<Topic> entity = new HttpEntity<Topic>(topic);
         restTemplate.put(
                 "http://localhost:8080/topics{id}", entity, "/myTopic");
@@ -79,7 +81,7 @@ public class CallRestService implements CommandLineRunner {
 
     private static void deleteTopic()
     {
-       restTemplate.delete("http://localhost:8080/topics{id}", "/newTopic");
+       restTemplate.delete("http://localhost:8080/topics{id}", "/myTopic");
         LOGGER.info("topic ee was sucessfully deleted");
     }
 
