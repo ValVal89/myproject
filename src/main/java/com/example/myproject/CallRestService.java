@@ -8,10 +8,12 @@ import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Component
+@Service
 public class CallRestService implements CommandLineRunner {
 
    private static RestTemplate restTemplate = new RestTemplate();
@@ -22,10 +24,10 @@ public class CallRestService implements CommandLineRunner {
         System.out.println(args.length);
         //System.exit(exitCodeGenerator().getExitCode());*/
 
-       postTopic();
-       getTopic();
-       putTopic();
-       deleteTopic();
+        postTopic();
+        getTopic();
+        putTopic();
+        deleteTopic();
     }
 
     @Bean
@@ -47,13 +49,25 @@ public class CallRestService implements CommandLineRunner {
         LOGGER.info(topic.getName() + " was sucessfully added");
     }
 
-    private static void getTopic()
+    @Retryable(value = Exception.class, maxAttempts=9)
+    public void getTopic()
     {
         Topic topic = restTemplate.getForObject("http://localhost:8080/topics/myTopic", Topic.class);
-        //System.out.println("Topic ee has a name " + topic.getName());
+        System.out.println("oops");
         LOGGER.info(topic.getName() + " was sucessfully extracted");
-
     }
+
+    @Recover
+    public  void recover(Exception npe)
+    {
+        Topic topic = new Topic("del","del", "del");
+        HttpEntity<Topic> entity = new HttpEntity<Topic>(topic);
+        ResponseEntity<Topic> response = restTemplate.postForEntity(
+                "http://localhost:8080/topics", entity, Topic.class);
+        System.out.println("recover");
+    }
+
+
     private static void putTopic()
     {
         Topic topic = new Topic("newTopic", "newTopic", "newTopic");

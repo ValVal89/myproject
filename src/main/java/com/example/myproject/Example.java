@@ -2,8 +2,9 @@ package com.example.myproject;
 
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.retry.annotation.EnableRetry;
 
+@EnableRetry
 @SpringBootApplication
 public class Example {
 
@@ -12,6 +13,6 @@ public class Example {
         /* SpringApplication app = new SpringApplication(Example.class);
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);*/
-       }
+        }
 
 }

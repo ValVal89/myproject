@@ -1,5 +1,6 @@
 package com.example.myproject.topic;
 
+import com.example.myproject.CallRestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
