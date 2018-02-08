@@ -3,13 +3,17 @@ package com.example.myproject;
 import com.example.myproject.topic.Topic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.retry.RecoveryCallback;
+import org.springframework.retry.RetryContext;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +22,9 @@ public class CallRestService implements CommandLineRunner {
 
    private static RestTemplate restTemplate = new RestTemplate();
    private static final Logger LOGGER = LoggerFactory.getLogger(CallRestService.class);
+
+    @Autowired
+    private RetryTemplate retryTemplate;
 
     public void run(String... args) {
        /* System.out.println("__________will be called just before SpringApplication.run completes_______________");
@@ -49,24 +56,31 @@ public class CallRestService implements CommandLineRunner {
         LOGGER.info(topic.getName() + " was sucessfully added");
     }
 
-    @Retryable(value = Exception.class, maxAttempts=9)
     public void getTopic()
     {
         Topic topic = restTemplate.getForObject("http://localhost:8080/topics/myTopic", Topic.class);
-        System.out.println("oops");
         LOGGER.info(topic.getName() + " was sucessfully extracted");
     }
 
-    @Recover
-    public  void recover(Exception npe)
+    /*private void getTopic()
     {
-        Topic topic = new Topic("del","del", "del");
-        HttpEntity<Topic> entity = new HttpEntity<Topic>(topic);
-        ResponseEntity<Topic> response = restTemplate.postForEntity(
-                "http://localhost:8080/topics", entity, Topic.class);
-        System.out.println("recover");
-    }
-
+        retryTemplate.execute(context -> {
+            Topic topic = restTemplate.getForObject("http://localhost:8080/topics/del", Topic.class);
+            System.out.println("trying to retry");
+            LOGGER.info(topic.getName() + " was sucessfully extracted");
+            return null;
+        },
+                (RecoveryCallback<Throwable>) retryContext -> {
+                    Topic topic = new Topic("del","del", "del");
+                    HttpEntity<Topic> entity = new HttpEntity<Topic>(topic);
+                    ResponseEntity<Topic> response = restTemplate.postForEntity(
+                            "http://localhost:8080/topics", entity, Topic.class);
+                    System.out.println("problem solved");
+                    getTopic();
+                    return null;
+                }
+        );
+    }*/
 
     private static void putTopic()
     {
